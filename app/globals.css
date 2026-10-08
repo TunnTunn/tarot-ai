@@ -139,7 +139,8 @@
 }
 
 .tarot-sky {
-  background:
+  background-color: #0e0928;
+  background-image:
     radial-gradient(
       ellipse 80% 55% at 50% -10%,
       rgba(129, 99, 255, 0.22),
