@@ -167,15 +167,15 @@ export function ReadingBoard({ spreadId }: { spreadId: SpreadId }) {
 
             <div className="mt-6 overflow-x-auto pb-8">
               <div
-                className="relative mx-auto h-60"
-                style={{ width: fan.length * 14 + 72 }}
+                className="relative mx-auto h-52"
+                style={{ width: fan.length * 15 + 64 }}
               >
                 {fan.map((card, order) => {
                   const center = (fan.length - 1) / 2;
                   const off = order - center;
-                  const angle = off * 1.9;
-                  const x = off * 14;
-                  const y = Math.pow(off / center, 2) * 40;
+                  const angle = off * 1.5;
+                  const x = off * 15;
+                  const y = Math.pow(off / center, 2) * 20;
                   const pickIndex = pickedIds.indexOf(card.id);
                   const selected = pickIndex >= 0;
                   return (
@@ -191,7 +191,7 @@ export function ReadingBoard({ spreadId }: { spreadId: SpreadId }) {
                         zIndex: selected ? 200 + pickIndex : order,
                       }}
                       className={cn(
-                        "absolute bottom-4 h-28 w-[72px] rounded-lg border bg-gradient-to-br from-indigo-950 via-[#141233] to-violet-950 transition-[transform,box-shadow,border-color] duration-150 ease-out",
+                        "absolute bottom-2 h-24 w-16 rounded-lg border bg-gradient-to-br from-indigo-950 via-[#141233] to-violet-950 transition-[transform,box-shadow,border-color] duration-150 ease-out",
                         selected
                           ? "border-amber-300 shadow-[0_0_20px_-4px_rgba(251,191,36,0.7)]"
                           : "border-amber-200/25 hover:border-amber-200/60",
