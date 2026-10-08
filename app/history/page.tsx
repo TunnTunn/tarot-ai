@@ -140,7 +140,7 @@ export default function HistoryPage() {
                       </li>
                     ))}
                   </ul>
-                  <div className="mt-4 flex gap-2">
+                  <div className="mt-4 flex flex-wrap gap-3">
                     <Button
                       variant="outline"
                       size="sm"

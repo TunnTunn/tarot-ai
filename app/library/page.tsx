@@ -163,7 +163,7 @@ export default function LibraryPage() {
             onClick={() => setSelectedId(c.id)}
             aria-pressed={selectedId === c.id}
             className={cn(
-              "group overflow-hidden rounded-xl border bg-indigo-950 text-left transition-[transform,box-shadow,border-color] duration-200 ease-out active:scale-[0.96]",
+              "group overflow-hidden rounded-xl border bg-indigo-950 text-start transition-[transform,box-shadow,border-color] duration-200 ease-out active:scale-[0.96]",
               selectedId === c.id
                 ? "border-amber-200/70 shadow-[0_0_25px_-5px_rgba(251,191,36,0.5)]"
                 : "border-white/10 hover:-translate-y-0.5 hover:border-amber-200/40",

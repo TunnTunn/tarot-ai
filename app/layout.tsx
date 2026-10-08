@@ -30,7 +30,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="vi"
       className={`dark ${geistSans.variable} ${geistMono.variable} ${playfair.variable} h-full antialiased`}
     >
-      <body className="tarot-sky min-h-full flex flex-col bg-background text-foreground">
+      <body className="tarot-sky flex min-h-dvh flex-col bg-background text-foreground">
         <LocaleProvider>{children}</LocaleProvider>
       </body>
     </html>
