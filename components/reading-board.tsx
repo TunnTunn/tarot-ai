@@ -168,14 +168,14 @@ export function ReadingBoard({ spreadId }: { spreadId: SpreadId }) {
             <div className="mt-6 overflow-x-auto pb-8">
               <div
                 className="relative mx-auto h-60"
-                style={{ width: fan.length * 11 + 64 }}
+                style={{ width: fan.length * 14 + 72 }}
               >
                 {fan.map((card, order) => {
                   const center = (fan.length - 1) / 2;
                   const off = order - center;
-                  const angle = off * 1.6;
-                  const x = off * 11;
-                  const y = Math.pow(off / center, 2) * 26;
+                  const angle = off * 1.9;
+                  const x = off * 14;
+                  const y = Math.pow(off / center, 2) * 40;
                   const pickIndex = pickedIds.indexOf(card.id);
                   const selected = pickIndex >= 0;
                   return (
