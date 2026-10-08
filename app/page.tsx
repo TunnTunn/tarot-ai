@@ -20,7 +20,7 @@ export default function Home() {
         <p className="text-xs tracking-[0.3em] text-amber-200/70 uppercase">
           {t("eyebrow")}
         </p>
-        <h1 className="font-display mx-auto mt-4 max-w-2xl text-4xl leading-tight text-amber-50 sm:text-6xl">
+        <h1 className="font-display mx-auto mt-4 max-w-2xl text-4xl leading-[1.1] text-balance text-amber-50 sm:text-6xl">
           {t("title")}
         </h1>
         <p className="mx-auto mt-4 max-w-xl leading-relaxed text-white/60">

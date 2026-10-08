@@ -69,7 +69,7 @@ export default function LibraryPage() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder={t("searchPlaceholder")}
-          className="w-full rounded-2xl border border-white/15 bg-white/5 p-3.5 text-white placeholder:text-white/30 focus:border-amber-200/60 focus:outline-none"
+          className="w-full rounded-2xl border border-white/15 bg-white/5 p-3.5 text-base text-white placeholder:text-white/50 focus:border-amber-200/60 focus:outline-none"
         />
         <div className="mt-3 flex flex-wrap justify-center gap-2">
           {(
@@ -97,7 +97,7 @@ export default function LibraryPage() {
             </button>
           ))}
         </div>
-        <p className="mt-3 text-center text-xs text-white/40">
+        <p className="mt-3 text-center text-xs text-white/60">
           {results.length} {t("count")}
         </p>
       </div>
@@ -163,7 +163,7 @@ export default function LibraryPage() {
             onClick={() => setSelectedId(c.id)}
             aria-pressed={selectedId === c.id}
             className={cn(
-              "group overflow-hidden rounded-xl border bg-indigo-950 text-left transition-all",
+              "group overflow-hidden rounded-xl border bg-indigo-950 text-left transition-[transform,box-shadow,border-color] duration-200 ease-out active:scale-[0.96]",
               selectedId === c.id
                 ? "border-amber-200/70 shadow-[0_0_25px_-5px_rgba(251,191,36,0.5)]"
                 : "border-white/10 hover:-translate-y-0.5 hover:border-amber-200/40",

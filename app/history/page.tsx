@@ -77,7 +77,7 @@ export default function HistoryPage() {
         <div className="mt-12 text-center">
           <p className="text-white/60">{t("empty")}</p>
           <Button
-            className="mt-5 rounded-full bg-amber-300 font-semibold text-indigo-950 hover:bg-amber-200"
+            className="mt-5 rounded-full bg-amber-300 font-semibold text-indigo-950 transition-transform duration-150 ease-out hover:bg-amber-200 enabled:active:scale-[0.96]"
           >
             <Link href="/">{t("dealFirst")}</Link>
           </Button>
@@ -91,7 +91,7 @@ export default function HistoryPage() {
                 clearHistory();
                 refresh();
               }}
-              className="text-sm text-white/40 hover:text-white/80"
+              className="text-sm text-white/60 hover:text-white/80"
             >
               {t("clearAll")}
             </button>
@@ -108,7 +108,7 @@ export default function HistoryPage() {
                     <h2 className="font-display text-lg text-amber-50">
                       {locale === "vi" ? spread.name_vi : spread.name_en}
                     </h2>
-                    <time className="text-xs text-white/40">
+                    <time className="text-xs text-white/60">
                       {new Date(r.createdAt).toLocaleString(
                         locale === "vi" ? "vi-VN" : "en-US",
                       )}
@@ -173,7 +173,7 @@ export default function HistoryPage() {
               );
             })}
           </div>
-          <p className="mt-4 text-center text-xs text-white/35">
+          <p className="mt-4 text-center text-xs text-white/60">
             {readings.length} {t("cardsSuffix") === "lá" ? "quẻ đã lưu" : "saved readings"}
           </p>
         </div>

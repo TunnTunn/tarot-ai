@@ -35,7 +35,7 @@ export function SpreadPicker() {
             >
               <Link
                 href={`/reading/${id}`}
-                className="group block rounded-3xl border border-white/10 bg-white/[0.04] p-6 text-center backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-amber-200/40 hover:shadow-[0_20px_60px_-15px_rgba(251,191,36,0.3)]"
+                className="group block rounded-3xl border border-white/10 bg-white/[0.04] p-6 text-center backdrop-blur transition-[transform,box-shadow,border-color] duration-300 ease-out hover:-translate-y-1 hover:border-amber-200/40 hover:shadow-[0_20px_60px_-15px_rgba(251,191,36,0.3)] active:scale-[0.96]"
               >
                 <Icon
                   className="mx-auto h-8 w-8 text-amber-200/80 transition-transform duration-300 group-hover:scale-110"
@@ -45,7 +45,7 @@ export function SpreadPicker() {
                   {t(`${id}.name`)}
                 </p>
                 <p className="mt-1.5 text-sm text-white/55">{t(`${id}.desc`)}</p>
-                <p className="mt-2 text-xs tracking-wider text-white/35">
+                <p className="mt-2 text-xs tracking-wider text-white/60">
                   {SPREADS[id].positions.length}{" "}
                   {locale === "vi" ? "lá" : "cards"}
                 </p>

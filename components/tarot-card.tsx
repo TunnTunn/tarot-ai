@@ -53,7 +53,8 @@ export function TarotCard({
       aria-label={name}
       aria-pressed={flipped}
       className={cn(
-        "group relative aspect-[3/5] w-full cursor-pointer [perspective:1200px] focus:outline-none",
+        "group relative aspect-[3/5] w-full cursor-pointer [perspective:1200px]",
+        "rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-200/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0e0928]",
         size === "lg" && "mx-auto max-w-56",
       )}
     >
@@ -83,7 +84,7 @@ export function TarotCard({
         </div>
 
         {/* Card face (artwork) */}
-        <div className="absolute inset-0 overflow-hidden rounded-2xl border border-amber-200/40 bg-indigo-950 shadow-[0_18px_50px_-12px_rgba(0,0,0,0.8)] [backface-visibility:hidden] [transform:rotateY(180deg)]">
+        <div className="absolute inset-0 overflow-hidden rounded-2xl border border-amber-200/40 bg-indigo-950 shadow-[0_18px_50px_-12px_rgba(0,0,0,0.8)] outline-1 outline-white/10 -outline-offset-1 [backface-visibility:hidden] [transform:rotateY(180deg)]">
           <div className={cn("h-full w-full", reversed && "rotate-180")}>
             <Image
               src={image}

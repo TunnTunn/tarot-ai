@@ -115,12 +115,12 @@ export function ReadingBoard({ spreadId }: { spreadId: SpreadId }) {
               onChange={(e) => setQuestion(e.target.value)}
               placeholder={tHome("questionPlaceholder")}
               rows={3}
-              className="mt-3 w-full resize-none rounded-2xl border border-white/15 bg-white/5 p-4 text-white placeholder:text-white/30 focus:border-amber-200/60 focus:outline-none"
+              className="mt-3 w-full resize-none rounded-2xl border border-white/15 bg-white/5 p-4 text-base text-white placeholder:text-white/50 focus:border-amber-200/60 focus:outline-none"
             />
             <Button
               size="lg"
               onClick={deal}
-              className="mt-6 rounded-full bg-amber-300 px-8 text-base font-semibold text-indigo-950 hover:bg-amber-200"
+              className="mt-6 rounded-full bg-amber-300 px-8 text-base font-semibold text-indigo-950 transition-transform duration-150 ease-out hover:bg-amber-200 enabled:active:scale-[0.96]"
             >
               <Sparkles className="h-5 w-5" />
               {tHome("dealCta")}
@@ -151,7 +151,7 @@ export function ReadingBoard({ spreadId }: { spreadId: SpreadId }) {
             className="mt-8"
           >
             <div className="flex flex-wrap items-center justify-center gap-3">
-              <p className="w-full text-center text-sm tracking-wide text-white/50">
+              <p className="w-full text-center text-sm tabular-nums tracking-wide text-white/60">
                 {t("tapToFlip")} · {flippedCount}/{drawn.length}
               </p>
               <Button
@@ -206,7 +206,7 @@ export function ReadingBoard({ spreadId }: { spreadId: SpreadId }) {
                     onFlip={() => toggle(i)}
                     glow={flipped[i] ?? false}
                   />
-                  <p className="mt-2 text-center text-xs tracking-wider text-white/50 uppercase">
+                  <p className="mt-2 text-center text-xs tracking-wider text-white/60 uppercase">
                     {locale === "vi"
                       ? d.position.name_vi
                       : d.position.name_en}

@@ -77,7 +77,7 @@ export default function PrototypePage() {
                 default
               </p>
             )}
-            <p className="mt-1 font-mono text-[11px] text-white/35">
+            <p className="mt-1 font-mono text-[11px] text-white/60">
               {SPECS[preset]}
             </p>
           </div>
