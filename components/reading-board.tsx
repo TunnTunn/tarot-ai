@@ -4,7 +4,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { MoonStar, RotateCcw, Sparkles } from "lucide-react";
+import { RotateCcw, Shuffle, Sparkles } from "lucide-react";
 import { TarotCard } from "@/components/tarot-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -17,34 +17,16 @@ import {
 } from "@/lib/cards";
 import { useLocale } from "@/lib/i18n";
 import { saveReading } from "@/lib/history";
-import { drawReading, SPREADS, type DrawnCard, type SpreadId } from "@/lib/tarot";
+import {
+  applySpread,
+  shuffle,
+  SPREADS,
+  type DrawnCard,
+  type SpreadId,
+} from "@/lib/tarot";
 import { cn } from "@/lib/utils";
 
-type Phase = "idle" | "shuffling" | "revealing";
-
-function ShuffleFan() {
-  return (
-    <div className="relative mx-auto flex h-56 items-center justify-center">
-      {Array.from({ length: 7 }).map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute h-44 w-28 rounded-xl border border-amber-200/30 bg-gradient-to-br from-indigo-950 via-[#141233] to-violet-950 shadow-xl"
-          initial={{ x: 0, rotate: 0, opacity: 0 }}
-          animate={{
-            x: [0, (i - 3) * 26, (i - 3) * 14, 0],
-            rotate: [0, (i - 3) * 7, (i - 3) * -4, 0],
-            opacity: [0, 1, 1, 0.9],
-          }}
-          transition={{ duration: 1.1, ease: "easeInOut" }}
-        >
-          <div className="flex h-full items-center justify-center text-amber-200/70">
-            <MoonStar className="h-6 w-6" strokeWidth={1.25} />
-          </div>
-        </motion.div>
-      ))}
-    </div>
-  );
-}
+type Phase = "idle" | "choose" | "revealing";
 
 export function ReadingBoard({ spreadId }: { spreadId: SpreadId }) {
   const t = useTranslations("reading");
@@ -53,17 +35,39 @@ export function ReadingBoard({ spreadId }: { spreadId: SpreadId }) {
   const reduceMotion = useReducedMotion();
   const [phase, setPhase] = useState<Phase>("idle");
   const [question, setQuestion] = useState("");
+  const [fan, setFan] = useState<TarotCardData[]>([]);
+  const [pickedIds, setPickedIds] = useState<string[]>([]);
   const [drawn, setDrawn] = useState<DrawnCard<TarotCardData>[]>([]);
   const [flipped, setFlipped] = useState<boolean[]>([]);
 
   const spread = SPREADS[spreadId];
+  const need = spread.positions.length;
   const flippedCount = useMemo(
     () => flipped.filter(Boolean).length,
     [flipped],
   );
 
+  const startChoosing = () => {
+    setFan(shuffle(ALL_CARDS));
+    setPickedIds([]);
+    setPhase("choose");
+  };
+
+  const togglePick = (id: string) =>
+    setPickedIds((prev) =>
+      prev.includes(id)
+        ? prev.filter((p) => p !== id)
+        : prev.length >= need
+          ? prev
+          : [...prev, id],
+    );
+
   const deal = () => {
-    const reading = drawReading(ALL_CARDS, spreadId);
+    const picked = pickedIds
+      .map((id) => fan.find((c) => c.id === id))
+      .filter((c): c is TarotCardData => c !== undefined);
+    if (picked.length !== need) return;
+    const reading = applySpread(picked, spreadId);
     setDrawn(reading);
     setFlipped(new Array(reading.length).fill(false));
     saveReading({
@@ -77,12 +81,7 @@ export function ReadingBoard({ spreadId }: { spreadId: SpreadId }) {
         reversed: d.reversed,
       })),
     });
-    if (reduceMotion) {
-      setPhase("revealing");
-    } else {
-      setPhase("shuffling");
-      window.setTimeout(() => setPhase("revealing"), 1250);
-    }
+    setPhase("revealing");
   };
 
   const setAll = (v: boolean) => setFlipped((f) => f.map(() => v));
@@ -119,27 +118,90 @@ export function ReadingBoard({ spreadId }: { spreadId: SpreadId }) {
             />
             <Button
               size="lg"
-              onClick={deal}
+              onClick={startChoosing}
               className="mt-6 rounded-full bg-amber-300 px-8 text-base font-semibold text-indigo-950 transition-transform duration-150 ease-out hover:bg-amber-200 enabled:active:scale-[0.96]"
             >
               <Sparkles className="h-5 w-5" />
-              {tHome("dealCta")}
+              {tHome("pickCta")}
             </Button>
           </motion.div>
         )}
 
-        {phase === "shuffling" && (
+        {phase === "choose" && (
           <motion.div
-            key="shuffling"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="mt-10 text-center"
+            key="choose"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -24 }}
+            className="mt-8"
           >
-            <p className="mb-6 text-sm tracking-[0.25em] text-white/50 uppercase">
-              {t("shuffling")}
-            </p>
-            <ShuffleFan />
+            <div className="text-center">
+              <p className="font-display text-2xl text-amber-50">
+                {t("chooseTitle")} · {pickedIds.length}/{need}
+              </p>
+              <p className="mt-1 text-sm text-white/60">{t("chooseHint")}</p>
+            </div>
+
+            <div className="sticky top-2 z-10 mx-auto mt-5 flex w-fit flex-wrap items-center justify-center gap-2 rounded-full border border-white/10 bg-[#141233]/90 px-4 py-2 backdrop-blur">
+              <span className="text-sm tabular-nums text-amber-100">
+                {pickedIds.length}/{need} {t("chosenOf")}
+              </span>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={startChoosing}
+                className="rounded-full text-white/60 hover:bg-white/10 hover:text-white"
+              >
+                <Shuffle className="h-4 w-4" />
+                {t("reshuffle")}
+              </Button>
+              <Button
+                size="sm"
+                disabled={pickedIds.length !== need}
+                onClick={deal}
+                className="rounded-full bg-amber-300 font-semibold text-indigo-950 transition-transform duration-150 ease-out hover:bg-amber-200 enabled:active:scale-[0.96] disabled:opacity-40"
+              >
+                {t("dealNow")}
+              </Button>
+            </div>
+
+            <div className="mt-6 overflow-x-auto pb-6">
+              <div className="flex w-max gap-1.5 px-2 pt-4">
+                {fan.map((card, order) => {
+                  const pickIndex = pickedIds.indexOf(card.id);
+                  const selected = pickIndex >= 0;
+                  return (
+                    <button
+                      key={`${card.id}-${order}`}
+                      type="button"
+                      onClick={() => togglePick(card.id)}
+                      aria-label={cardName(card, locale)}
+                      aria-pressed={selected}
+                      className={cn(
+                        "h-24 w-16 shrink-0 rounded-lg border transition-[transform,box-shadow,border-color] duration-150 ease-out",
+                        "bg-gradient-to-br from-indigo-950 via-[#141233] to-violet-950",
+                        selected
+                          ? "-translate-y-3 border-amber-300 shadow-[0_0_20px_-4px_rgba(251,191,36,0.7)]"
+                          : "border-amber-200/25 hover:-translate-y-1 hover:border-amber-200/60",
+                      )}
+                    >
+                      <span className="flex h-full flex-col items-center justify-center">
+                        <span
+                          className={cn(
+                            "flex h-6 w-6 items-center justify-center rounded-full text-[11px] font-semibold tabular-nums",
+                            selected
+                              ? "bg-amber-300 text-indigo-950"
+                              : "border border-amber-200/40 text-amber-200/60",
+                          )}
+                        >
+                          {selected ? pickIndex + 1 : "✦"}
+                        </span>
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
           </motion.div>
         )}
 
@@ -173,7 +235,7 @@ export function ReadingBoard({ spreadId }: { spreadId: SpreadId }) {
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={deal}
+                onClick={startChoosing}
                 className="rounded-full text-white/60 hover:bg-white/10 hover:text-white"
               >
                 <RotateCcw className="h-4 w-4" />
@@ -194,9 +256,27 @@ export function ReadingBoard({ spreadId }: { spreadId: SpreadId }) {
               {drawn.map((d, i) => (
                 <motion.div
                   key={`${d.card.id}-${i}`}
-                  initial={reduceMotion ? false : { opacity: 0, y: 28 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: reduceMotion ? 0 : 0.15 + i * 0.12 }}
+                  initial={
+                    reduceMotion
+                      ? { opacity: 0 }
+                      : {
+                          opacity: 0,
+                          y: 140,
+                          scale: 0.85,
+                          rotate: i % 2 === 0 ? -6 : 6,
+                        }
+                  }
+                  animate={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
+                  transition={
+                    reduceMotion
+                      ? { duration: 0.15 }
+                      : {
+                          type: "spring",
+                          stiffness: 210,
+                          damping: 21,
+                          delay: 0.1 + i * 0.09,
+                        }
+                  }
                 >
                   <TarotCard
                     image={d.card.image}

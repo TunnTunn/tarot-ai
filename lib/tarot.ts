@@ -89,6 +89,30 @@ export function shuffle<T>(deck: readonly T[], rand: () => number = Math.random)
 }
 
 /**
+ * Map hand-picked cards (in the order the user tapped them) onto a
+ * spread's positions, assigning Upright/Reversed to each.
+ * Throws when the pick count does not match the spread.
+ */
+export function applySpread<T extends DeckCard>(
+  picked: readonly T[],
+  spreadId: SpreadId,
+  options: DrawOptions = {},
+): DrawnCard<T>[] {
+  const spread = SPREADS[spreadId];
+  if (picked.length !== spread.positions.length) {
+    throw new Error(
+      `${spread.name_en} needs exactly ${spread.positions.length} cards, got ${picked.length}`,
+    );
+  }
+  const { rand = Math.random, reversedRate = REVERSED_RATE } = options;
+  return picked.map((card, i) => ({
+    card,
+    position: spread.positions[i],
+    reversed: rand() < reversedRate,
+  }));
+}
+
+/**
  * Draw a full Reading for a spread: shuffled deck, first N cards,
  * each tagged with its Position meaning + Upright/Reversed state.
  * Throws if the deck holds fewer cards than the spread needs.

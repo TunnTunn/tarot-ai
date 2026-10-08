@@ -6,6 +6,7 @@
     "questionLabel": "Câu hỏi của bạn (không bắt buộc)",
     "questionPlaceholder": "Ví dụ: Tháng này công việc của tôi thế nào?",
     "dealCta": "Xào & rút bài",
+    "pickCta": "Xào bài để chọn",
     "pickSpread": "Chọn kiểu trải bài"
   },
   "spread": {
@@ -22,7 +23,12 @@
     "reversed": "Ngược",
     "keywords": "Từ khóa",
     "newReading": "Rút quẻ mới",
-    "backHome": "Về trang chủ"
+    "backHome": "Về trang chủ",
+    "chooseTitle": "Chạm để chọn",
+    "chooseHint": "Bài đã xào úp. Chạm vào những lá gọi bạn.",
+    "chosenOf": "đã chọn",
+    "dealNow": "Chia bài",
+    "reshuffle": "Xào lại"
   },
   "library": {
     "title": "Thư viện 78 lá",

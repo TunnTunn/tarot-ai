@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   REVERSED_RATE,
   SPREADS,
+  applySpread,
   drawReading,
   shuffle,
   type DeckCard,
@@ -137,5 +138,32 @@ describe("drawReading", () => {
     const before = deck.map((c) => c.id);
     drawReading(deck, "celtic-cross", { rand: seeded(9) });
     expect(deck.map((c) => c.id)).toEqual(before);
+  });
+});
+
+describe("applySpread", () => {
+  const picked = [deck[5], deck[41], deck[77]];
+
+  it("maps picked cards to positions in tap order", () => {
+    const out = applySpread(picked, "three-card", { rand: () => 0.99 });
+    expect(out.map((d) => d.card.id)).toEqual(["card-5", "card-41", "card-77"]);
+    expect(out.map((d) => d.position.name_en)).toEqual([
+      "Past",
+      "Present",
+      "Future",
+    ]);
+    expect(out.every((d) => !d.reversed)).toBe(true);
+  });
+
+  it("assigns reversed with the injected rand", () => {
+    const out = applySpread(picked, "three-card", { rand: () => 0 });
+    expect(out.every((d) => d.reversed)).toBe(true);
+  });
+
+  it("throws when pick count mismatches the spread", () => {
+    expect(() => applySpread(picked.slice(0, 2), "three-card")).toThrow(
+      /exactly 3 cards/i,
+    );
+    expect(() => applySpread(picked, "single")).toThrow(/exactly 1 card/i);
   });
 });

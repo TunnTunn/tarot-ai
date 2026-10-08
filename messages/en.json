@@ -6,6 +6,7 @@
     "questionLabel": "Your question (optional)",
     "questionPlaceholder": "E.g. How will my work go this month?",
     "dealCta": "Shuffle & draw",
+    "pickCta": "Shuffle & pick",
     "pickSpread": "Choose a spread"
   },
   "spread": {
@@ -22,7 +23,12 @@
     "reversed": "Reversed",
     "keywords": "Keywords",
     "newReading": "New reading",
-    "backHome": "Back home"
+    "backHome": "Back home",
+    "chooseTitle": "Tap to choose",
+    "chooseHint": "The deck is shuffled face-down. Tap the cards that call to you.",
+    "chosenOf": "chosen",
+    "dealNow": "Deal",
+    "reshuffle": "Reshuffle"
   },
   "library": {
     "title": "78-card library",
