@@ -165,9 +165,17 @@ export function ReadingBoard({ spreadId }: { spreadId: SpreadId }) {
               </Button>
             </div>
 
-            <div className="mt-6 overflow-x-auto pb-6">
-              <div className="flex w-max gap-1.5 px-2 pt-4">
+            <div className="mt-6 overflow-x-auto pb-8">
+              <div
+                className="relative mx-auto h-60"
+                style={{ width: fan.length * 11 + 64 }}
+              >
                 {fan.map((card, order) => {
+                  const center = (fan.length - 1) / 2;
+                  const off = order - center;
+                  const angle = off * 1.6;
+                  const x = off * 11;
+                  const y = Math.pow(off / center, 2) * 26;
                   const pickIndex = pickedIds.indexOf(card.id);
                   const selected = pickIndex >= 0;
                   return (
@@ -177,12 +185,16 @@ export function ReadingBoard({ spreadId }: { spreadId: SpreadId }) {
                       onClick={() => togglePick(card.id)}
                       aria-label={cardName(card, locale)}
                       aria-pressed={selected}
+                      style={{
+                        left: `calc(50% + ${x}px)`,
+                        transform: `translateX(-50%) translateY(${selected ? y - 22 : y}px) rotate(${angle}deg)`,
+                        zIndex: selected ? 200 + pickIndex : order,
+                      }}
                       className={cn(
-                        "h-24 w-16 shrink-0 rounded-lg border transition-[transform,box-shadow,border-color] duration-150 ease-out",
-                        "bg-gradient-to-br from-indigo-950 via-[#141233] to-violet-950",
+                        "absolute bottom-4 h-28 w-[72px] rounded-lg border bg-gradient-to-br from-indigo-950 via-[#141233] to-violet-950 transition-[transform,box-shadow,border-color] duration-150 ease-out",
                         selected
-                          ? "-translate-y-3 border-amber-300 shadow-[0_0_20px_-4px_rgba(251,191,36,0.7)]"
-                          : "border-amber-200/25 hover:-translate-y-1 hover:border-amber-200/60",
+                          ? "border-amber-300 shadow-[0_0_20px_-4px_rgba(251,191,36,0.7)]"
+                          : "border-amber-200/25 hover:border-amber-200/60",
                       )}
                     >
                       <span className="flex h-full flex-col items-center justify-center">
