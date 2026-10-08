@@ -52,6 +52,7 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
       <NextIntlClientProvider
         key={locale}
         locale={locale}
+        timeZone="Asia/Ho_Chi_Minh"
         messages={MESSAGES[locale]}
       >
         {children}
