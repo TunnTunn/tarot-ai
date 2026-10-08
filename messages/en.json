@@ -28,7 +28,9 @@
     "chooseHint": "The deck is shuffled face-down. Tap the cards that call to you.",
     "chosenOf": "chosen",
     "dealNow": "Deal",
-    "reshuffle": "Reshuffle"
+    "reshuffle": "Reshuffle",
+    "tapDeck": "Tap the deck to draw one card at a time",
+    "undoPick": "Undo"
   },
   "library": {
     "title": "78-card library",

@@ -28,7 +28,9 @@
     "chooseHint": "Bài đã xào úp. Chạm vào những lá gọi bạn.",
     "chosenOf": "đã chọn",
     "dealNow": "Chia bài",
-    "reshuffle": "Xào lại"
+    "reshuffle": "Xào lại",
+    "tapDeck": "Chạm vào chồng bài để rút từng lá",
+    "undoPick": "Hoàn tác"
   },
   "library": {
     "title": "Thư viện 78 lá",

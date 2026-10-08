@@ -3,8 +3,8 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { useMemo, useRef, useState } from "react";
-import { RotateCcw, Shuffle, Sparkles } from "lucide-react";
+import { useMemo, useState } from "react";
+import { MoonStar, RotateCcw, Shuffle, Sparkles, Undo2 } from "lucide-react";
 import { TarotCard } from "@/components/tarot-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -39,7 +39,6 @@ export function ReadingBoard({ spreadId }: { spreadId: SpreadId }) {
   const [pickedIds, setPickedIds] = useState<string[]>([]);
   const [drawn, setDrawn] = useState<DrawnCard<TarotCardData>[]>([]);
   const [flipped, setFlipped] = useState<boolean[]>([]);
-  const fanRef = useRef<HTMLDivElement>(null);
 
   const spread = SPREADS[spreadId];
   const need = spread.positions.length;
@@ -52,24 +51,25 @@ export function ReadingBoard({ spreadId }: { spreadId: SpreadId }) {
     setFan(shuffle(ALL_CARDS));
     setPickedIds([]);
     setPhase("choose");
-    // Center the fan without triggering a state update.
-    requestAnimationFrame(() => {
-      const el = fanRef.current;
-      if (el) el.scrollLeft = (el.scrollWidth - el.clientWidth) / 2;
-    });
   };
 
-  const togglePick = (id: string) =>
-    setPickedIds((prev) =>
-      prev.includes(id)
-        ? prev.filter((p) => p !== id)
-        : prev.length >= need
-          ? prev
-          : [...prev, id],
-    );
+  const remaining = fan.length - pickedIds.length;
 
-  const deal = () => {
-    const picked = pickedIds
+  const drawOne = () => {
+    if (pickedIds.length >= need) return;
+    const nextCard = fan[pickedIds.length];
+    if (!nextCard) return;
+    const next = [...pickedIds, nextCard.id];
+    setPickedIds(next);
+    if (next.length === need) {
+      window.setTimeout(() => dealWith(next), 550);
+    }
+  };
+
+  const undoPick = () => setPickedIds((prev) => prev.slice(0, -1));
+
+  const dealWith = (ids: string[]) => {
+    const picked = ids
       .map((id) => fan.find((c) => c.id === id))
       .filter((c): c is TarotCardData => c !== undefined);
     if (picked.length !== need) return;
@@ -148,10 +148,20 @@ export function ReadingBoard({ spreadId }: { spreadId: SpreadId }) {
               <p className="mt-1 text-sm text-white/60">{t("chooseHint")}</p>
             </div>
 
-            <div className="sticky top-2 z-10 mx-auto mt-5 flex w-fit flex-wrap items-center justify-center gap-2 rounded-full border border-white/10 bg-[#141233]/90 px-4 py-2 backdrop-blur">
+            <div className="mx-auto mt-5 flex w-fit flex-wrap items-center justify-center gap-2 rounded-full border border-white/10 bg-[#141233]/90 px-4 py-2 backdrop-blur">
               <span className="text-sm tabular-nums text-amber-100">
                 {pickedIds.length}/{need} {t("chosenOf")}
               </span>
+              <Button
+                variant="ghost"
+                size="sm"
+                disabled={pickedIds.length === 0}
+                onClick={undoPick}
+                className="rounded-full text-white/60 hover:bg-white/10 hover:text-white disabled:opacity-40"
+              >
+                <Undo2 className="h-4 w-4" />
+                {t("undoPick")}
+              </Button>
               <Button
                 variant="ghost"
                 size="sm"
@@ -161,63 +171,61 @@ export function ReadingBoard({ spreadId }: { spreadId: SpreadId }) {
                 <Shuffle className="h-4 w-4" />
                 {t("reshuffle")}
               </Button>
-              <Button
-                size="sm"
-                disabled={pickedIds.length !== need}
-                onClick={deal}
-                className="rounded-full bg-amber-300 font-semibold text-indigo-950 transition-transform duration-150 ease-out hover:bg-amber-200 enabled:active:scale-[0.96] disabled:opacity-40"
-              >
-                {t("dealNow")}
-              </Button>
             </div>
 
-            <div ref={fanRef} className="fan-scroll mt-6 overflow-x-auto pb-8">
-              <div
-                className="relative mx-auto h-56"
-                style={{ width: fan.length * 26 + 64 }}
+            <div className="mt-10 flex flex-col items-center">
+              <button
+                type="button"
+                onClick={drawOne}
+                disabled={pickedIds.length >= need}
+                aria-label={t("tapDeck")}
+                className="group relative h-56 w-40 transition-transform duration-150 ease-out enabled:active:scale-[0.96] disabled:cursor-default"
               >
-                {fan.map((card, order) => {
-                  const center = (fan.length - 1) / 2;
-                  const off = order - center;
-                  const angle = off * 0.9;
-                  const x = off * 26;
-                  const y = Math.pow(off / center, 2) * 30;
-                  const pickIndex = pickedIds.indexOf(card.id);
-                  const selected = pickIndex >= 0;
-                  return (
-                    <button
-                      key={`${card.id}-${order}`}
-                      type="button"
-                      onClick={() => togglePick(card.id)}
-                      aria-label={cardName(card, locale)}
-                      aria-pressed={selected}
-                      style={{
-                        left: `calc(50% + ${x}px)`,
-                        transform: `translateX(-50%) translateY(${selected ? y - 22 : y}px) rotate(${angle}deg)`,
-                        zIndex: selected ? 200 + pickIndex : order,
-                      }}
-                      className={cn(
-                        "absolute bottom-2 h-24 w-16 rounded-lg border bg-gradient-to-br from-indigo-950 via-[#141233] to-violet-950 transition-[transform,box-shadow,border-color] duration-150 ease-out",
-                        selected
-                          ? "border-amber-300 shadow-[0_0_20px_-4px_rgba(251,191,36,0.7)]"
-                          : "border-amber-200/25 hover:border-amber-200/60",
-                      )}
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <span
+                    key={i}
+                    aria-hidden
+                    style={{ transform: `translate(${-i * 3}px, ${-i * 3}px)` }}
+                    className={cn(
+                      "absolute inset-0 rounded-2xl border bg-gradient-to-br from-indigo-950 via-[#141233] to-violet-950",
+                      i === 4
+                        ? "border-amber-200/50 shadow-[0_24px_60px_-15px_rgba(0,0,0,0.8)] transition-shadow duration-300 group-hover:shadow-[0_24px_70px_-15px_rgba(251,191,36,0.35)]"
+                        : "border-amber-200/20",
+                    )}
+                  />
+                ))}
+                <span className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-amber-200/80">
+                  <MoonStar className="h-9 w-9" strokeWidth={1.25} />
+                  <span className="text-xs tabular-nums tracking-widest">
+                    {remaining}
+                  </span>
+                </span>
+              </button>
+              <p className="mt-4 text-sm text-white/60">{t("tapDeck")}</p>
+
+              <div className="mt-6 flex min-h-28 flex-wrap items-start justify-center gap-2">
+                <AnimatePresence>
+                  {pickedIds.map((id, i) => (
+                    <motion.div
+                      key={id}
+                      layout
+                      initial={{ opacity: 0, y: -48, scale: 0.7 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.7 }}
+                      transition={{ type: "spring", stiffness: 380, damping: 26 }}
+                      className="relative h-20 w-14 rounded-lg border border-amber-300/70 bg-gradient-to-br from-indigo-950 via-[#141233] to-violet-950 shadow-[0_0_18px_-4px_rgba(251,191,36,0.6)]"
                     >
-                      <span className="flex h-full flex-col items-center justify-center">
-                        <span
-                          className={cn(
-                            "flex h-6 w-6 items-center justify-center rounded-full text-[11px] font-semibold tabular-nums",
-                            selected
-                              ? "bg-amber-300 text-indigo-950"
-                              : "border border-amber-200/40 text-amber-200/60",
-                          )}
-                        >
-                          {selected ? pickIndex + 1 : "✦"}
-                        </span>
+                      <span className="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-amber-300 text-[11px] font-bold tabular-nums text-indigo-950">
+                        {i + 1}
                       </span>
-                    </button>
-                  );
-                })}
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+                {pickedIds.length === 0 && (
+                  <p className="w-full text-center text-sm text-white/35">
+                    —
+                  </p>
+                )}
               </div>
             </div>
           </motion.div>
