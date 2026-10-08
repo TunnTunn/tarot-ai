@@ -3,7 +3,7 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { RotateCcw, Shuffle, Sparkles } from "lucide-react";
 import { TarotCard } from "@/components/tarot-card";
 import { Badge } from "@/components/ui/badge";
@@ -39,6 +39,7 @@ export function ReadingBoard({ spreadId }: { spreadId: SpreadId }) {
   const [pickedIds, setPickedIds] = useState<string[]>([]);
   const [drawn, setDrawn] = useState<DrawnCard<TarotCardData>[]>([]);
   const [flipped, setFlipped] = useState<boolean[]>([]);
+  const fanRef = useRef<HTMLDivElement>(null);
 
   const spread = SPREADS[spreadId];
   const need = spread.positions.length;
@@ -51,6 +52,11 @@ export function ReadingBoard({ spreadId }: { spreadId: SpreadId }) {
     setFan(shuffle(ALL_CARDS));
     setPickedIds([]);
     setPhase("choose");
+    // Center the fan without triggering a state update.
+    requestAnimationFrame(() => {
+      const el = fanRef.current;
+      if (el) el.scrollLeft = (el.scrollWidth - el.clientWidth) / 2;
+    });
   };
 
   const togglePick = (id: string) =>
@@ -165,17 +171,17 @@ export function ReadingBoard({ spreadId }: { spreadId: SpreadId }) {
               </Button>
             </div>
 
-            <div className="mt-6 overflow-x-auto pb-8">
+            <div ref={fanRef} className="fan-scroll mt-6 overflow-x-auto pb-8">
               <div
-                className="relative mx-auto h-52"
-                style={{ width: fan.length * 15 + 64 }}
+                className="relative mx-auto h-56"
+                style={{ width: fan.length * 26 + 64 }}
               >
                 {fan.map((card, order) => {
                   const center = (fan.length - 1) / 2;
                   const off = order - center;
-                  const angle = off * 1.5;
-                  const x = off * 15;
-                  const y = Math.pow(off / center, 2) * 20;
+                  const angle = off * 0.9;
+                  const x = off * 26;
+                  const y = Math.pow(off / center, 2) * 30;
                   const pickIndex = pickedIds.indexOf(card.id);
                   const selected = pickIndex >= 0;
                   return (

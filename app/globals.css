@@ -139,6 +139,22 @@
   font-family: var(--font-playfair), Georgia, "Times New Roman", serif;
 }
 
+/* Slim dark scrollbar for the card fan */
+.fan-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(251, 191, 36, 0.35) transparent;
+}
+.fan-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+.fan-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.fan-scroll::-webkit-scrollbar-thumb {
+  background: rgba(251, 191, 36, 0.35);
+  border-radius: 999px;
+}
+
 .tarot-sky {
   background-color: #0e0928;
   background-image:
