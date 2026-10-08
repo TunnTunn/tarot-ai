@@ -24,6 +24,32 @@
     "newReading": "Rút quẻ mới",
     "backHome": "Về trang chủ"
   },
+  "library": {
+    "title": "Thư viện 78 lá",
+    "subtitle": "Tra cứu nghĩa xuôi/ngược của từng lá.",
+    "searchPlaceholder": "Tìm tên lá…",
+    "all": "Tất cả",
+    "major": "Major",
+    "filterSuit": "Chất",
+    "count": "lá"
+  },
+  "history": {
+    "title": "Lịch sử quẻ",
+    "subtitle": "Các lần rút lưu trên máy này.",
+    "empty": "Chưa có quẻ nào. Rút quẻ đầu tiên đi!",
+    "dealFirst": "Rút bài ngay",
+    "copied": "Đã chép!",
+    "copy": "Chép",
+    "delete": "Xóa",
+    "clearAll": "Xóa hết",
+    "cardsSuffix": "lá"
+  },
+  "nav": {
+    "home": "Trang chủ",
+    "library": "Thư viện",
+    "history": "Lịch sử",
+    "workshop": "Vọc animation"
+  },
   "prototype": {
     "title": "Xưởng animation",
     "subtitle": "Chạm từng lá để so 3 kiểu lật. Kiểu nào mượt nhất sẽ thành mặc định.",

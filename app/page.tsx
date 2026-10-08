@@ -2,21 +2,14 @@
 
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { MoonStar } from "lucide-react";
-import { LocaleToggle } from "@/components/locale-toggle";
+import { SiteHeader } from "@/components/site-header";
 import { SpreadPicker } from "@/components/spread-picker";
 
 export default function Home() {
   const t = useTranslations("home");
   return (
     <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-5 pt-6 pb-24">
-      <header className="flex items-center justify-between">
-        <div className="flex items-center gap-2 text-amber-200/90">
-          <MoonStar className="h-5 w-5" strokeWidth={1.5} />
-          <span className="font-display text-lg tracking-wide">Tarot AI</span>
-        </div>
-        <LocaleToggle />
-      </header>
+      <SiteHeader />
 
       <motion.section
         initial={{ opacity: 0, y: 24 }}

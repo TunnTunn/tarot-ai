@@ -16,6 +16,7 @@ import {
   type TarotCardData,
 } from "@/lib/cards";
 import { useLocale } from "@/lib/i18n";
+import { saveReading } from "@/lib/history";
 import { drawReading, SPREADS, type DrawnCard, type SpreadId } from "@/lib/tarot";
 import { cn } from "@/lib/utils";
 
@@ -65,6 +66,17 @@ export function ReadingBoard({ spreadId }: { spreadId: SpreadId }) {
     const reading = drawReading(ALL_CARDS, spreadId);
     setDrawn(reading);
     setFlipped(new Array(reading.length).fill(false));
+    saveReading({
+      spreadId,
+      question: question.trim(),
+      locale,
+      draws: reading.map((d) => ({
+        cardId: d.card.id,
+        position_en: d.position.name_en,
+        position_vi: d.position.name_vi,
+        reversed: d.reversed,
+      })),
+    });
     if (reduceMotion) {
       setPhase("revealing");
     } else {

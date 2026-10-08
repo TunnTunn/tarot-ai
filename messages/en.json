@@ -24,6 +24,32 @@
     "newReading": "New reading",
     "backHome": "Back home"
   },
+  "library": {
+    "title": "78-card library",
+    "subtitle": "Look up upright/reversed meanings of every card.",
+    "searchPlaceholder": "Search card name…",
+    "all": "All",
+    "major": "Major",
+    "filterSuit": "Suit",
+    "count": "cards"
+  },
+  "history": {
+    "title": "Reading history",
+    "subtitle": "Past readings saved on this device.",
+    "empty": "No readings yet. Draw your first one!",
+    "dealFirst": "Draw cards now",
+    "copied": "Copied!",
+    "copy": "Copy",
+    "delete": "Delete",
+    "clearAll": "Clear all",
+    "cardsSuffix": "cards"
+  },
+  "nav": {
+    "home": "Home",
+    "library": "Library",
+    "history": "History",
+    "workshop": "Animation lab"
+  },
   "prototype": {
     "title": "Animation workshop",
     "subtitle": "Tap the cards to compare 3 flip styles. The smoothest one becomes the default.",
