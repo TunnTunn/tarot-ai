@@ -128,3 +128,31 @@
     @apply font-sans;
   }
 }
+
+/* Mystical night theme for Tarot AI (always dark) */
+.dark {
+  --background: oklch(0.17 0.06 285);
+}
+
+.font-display {
+  font-family: var(--font-playfair), Georgia, "Times New Roman", serif;
+}
+
+.tarot-sky {
+  background:
+    radial-gradient(
+      ellipse 80% 55% at 50% -10%,
+      rgba(129, 99, 255, 0.22),
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 60% 45% at 85% 110%,
+      rgba(251, 191, 36, 0.08),
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 60% 45% at 10% 105%,
+      rgba(76, 29, 149, 0.35),
+      transparent 70%
+    );
+}

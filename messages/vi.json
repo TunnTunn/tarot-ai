@@ -1,0 +1,34 @@
+{
+  "home": {
+    "eyebrow": "Tarot song ngữ · Rider-Waite",
+    "title": "Hỏi một câu, rút một quẻ",
+    "subtitle": "Chọn kiểu trải bài, đặt câu hỏi trong lòng, xào bài và lật từng lá theo nhịp của bạn.",
+    "questionLabel": "Câu hỏi của bạn (không bắt buộc)",
+    "questionPlaceholder": "Ví dụ: Tháng này công việc của tôi thế nào?",
+    "dealCta": "Xào & rút bài",
+    "pickSpread": "Chọn kiểu trải bài"
+  },
+  "spread": {
+    "single": { "name": "Một lá", "desc": "Thông điệp nhanh cho hôm nay" },
+    "three-card": { "name": "Ba lá", "desc": "Quá khứ · Hiện tại · Tương lai" },
+    "celtic-cross": { "name": "Chữ thập Celtic", "desc": "Trải 10 lá chuyên sâu" }
+  },
+  "reading": {
+    "shuffling": "Đang xào bài…",
+    "tapToFlip": "Chạm từng lá để lật",
+    "flipAll": "Lật tất cả",
+    "flipBack": "Úp tất cả",
+    "upright": "Xuôi",
+    "reversed": "Ngược",
+    "keywords": "Từ khóa",
+    "newReading": "Rút quẻ mới",
+    "backHome": "Về trang chủ"
+  },
+  "prototype": {
+    "title": "Xưởng animation",
+    "subtitle": "Chạm từng lá để so 3 kiểu lật. Kiểu nào mượt nhất sẽ thành mặc định.",
+    "snappy": "Nhanh · dứt khoát",
+    "soft": "Mềm · mơ màng",
+    "dramatic": "Chậm · kịch tính"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "home": {
+    "eyebrow": "Bilingual tarot · Rider-Waite",
+    "title": "Ask a question, draw your cards",
+    "subtitle": "Pick a spread, hold your question in mind, shuffle and flip each card at your own rhythm.",
+    "questionLabel": "Your question (optional)",
+    "questionPlaceholder": "E.g. How will my work go this month?",
+    "dealCta": "Shuffle & draw",
+    "pickSpread": "Choose a spread"
+  },
+  "spread": {
+    "single": { "name": "Single card", "desc": "A quick message for today" },
+    "three-card": { "name": "Three cards", "desc": "Past · Present · Future" },
+    "celtic-cross": { "name": "Celtic Cross", "desc": "In-depth 10-card spread" }
+  },
+  "reading": {
+    "shuffling": "Shuffling…",
+    "tapToFlip": "Tap each card to flip it",
+    "flipAll": "Flip all",
+    "flipBack": "Face all down",
+    "upright": "Upright",
+    "reversed": "Reversed",
+    "keywords": "Keywords",
+    "newReading": "New reading",
+    "backHome": "Back home"
+  },
+  "prototype": {
+    "title": "Animation workshop",
+    "subtitle": "Tap the cards to compare 3 flip styles. The smoothest one becomes the default.",
+    "snappy": "Snappy · crisp",
+    "soft": "Soft · dreamy",
+    "dramatic": "Slow · dramatic"
+  }
+}
